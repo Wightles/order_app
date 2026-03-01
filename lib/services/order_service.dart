@@ -2,9 +2,9 @@ import 'dart:async';
 import 'dart:convert';
 import 'dart:io';
 import 'package:http/http.dart' as http;
-import '/models/order.dart';
-import '/exceptions/api_exception.dart';
-import '/config/api_config.dart';
+import '../models/order.dart';
+import '../exceptions/api_exception.dart';
+import '../config/api_config.dart';
 
 class OrderService {
   Future<Order> createOrder(int userId, int serviceId) async {

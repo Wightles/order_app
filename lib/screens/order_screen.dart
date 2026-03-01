@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '/controllers/order_controller.dart';
+import '../controllers/order_controller.dart';
 
 class OrderScreen extends StatefulWidget {
   final OrderController controller;
@@ -22,6 +22,31 @@ class _OrderScreenState extends State<OrderScreen> {
     _userIdController.dispose();
     _serviceIdController.dispose();
     super.dispose();
+  }
+
+  void _submitOrder() {
+    final userId = int.tryParse(_userIdController.text);
+    final serviceId = int.tryParse(_serviceIdController.text);
+    
+    if (userId == null || serviceId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Введите числовые значения ID'),
+        ),
+      );
+      return;
+    }
+    
+    if (userId <= 0 || serviceId <= 0) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('ID должны быть положительными числами'),
+        ),
+      );
+      return;
+    }
+
+    widget.controller.submitOrder(userId, serviceId);
   }
 
   @override
@@ -127,30 +152,5 @@ class _OrderScreenState extends State<OrderScreen> {
         ),
       ),
     );
-  }
-
-  void _submitOrder() {
-    final userId = int.tryParse(_userIdController.text);
-    final serviceId = int.tryParse(_serviceIdController.text);
-    
-    if (userId == null || serviceId == null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Введите числовые значения ID'),
-        ),
-      );
-      return;
-    }
-    
-    if (userId <= 0 || serviceId <= 0) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('ID должны быть положительными числами'),
-        ),
-      );
-      return;
-    }
-
-    widget.controller.submitOrder(userId, serviceId);
   }
 }

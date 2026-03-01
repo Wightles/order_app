@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import '/models/order.dart';
-import '/services/order_service.dart';
+import '../models/order.dart';
+import '../services/order_service.dart';
 
 abstract class OrderState {}
 
