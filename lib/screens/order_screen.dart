@@ -49,6 +49,11 @@ class _OrderScreenState extends State<OrderScreen> {
     widget.controller.submitOrder(userId, serviceId);
   }
 
+  bool _isInputEnabled() {
+    final state = widget.controller.state;
+    return state is OrderInitial || state is OrderError;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -60,24 +65,39 @@ class _OrderScreenState extends State<OrderScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            TextField(
-              controller: _userIdController,
-              decoration: const InputDecoration(
-                labelText: 'ID пользователя',
-                hintText: 'Введите ID пользователя',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
-            ),
-            const SizedBox(height: 16),
-            TextField(
-              controller: _serviceIdController,
-              decoration: const InputDecoration(
-                labelText: 'ID услуги',
-                hintText: 'Введите ID услуги',
-                border: OutlineInputBorder(),
-              ),
-              keyboardType: TextInputType.number,
+            ListenableBuilder(
+              listenable: widget.controller,
+              builder: (context, _) {
+                return Column(
+                  children: [
+                    TextField(
+                      controller: _userIdController,
+                      decoration: InputDecoration(
+                        labelText: 'ID пользователя',
+                        hintText: 'Введите ID пользователя',
+                        border: const OutlineInputBorder(),
+                        filled: !_isInputEnabled(),
+                        fillColor: !_isInputEnabled() ? Colors.grey.shade200 : null,
+                      ),
+                      keyboardType: TextInputType.number,
+                      enabled: _isInputEnabled(),
+                    ),
+                    const SizedBox(height: 16),
+                    TextField(
+                      controller: _serviceIdController,
+                      decoration: InputDecoration(
+                        labelText: 'ID услуги',
+                        hintText: 'Введите ID услуги',
+                        border: const OutlineInputBorder(),
+                        filled: !_isInputEnabled(),
+                        fillColor: !_isInputEnabled() ? Colors.grey.shade200 : null,
+                      ),
+                      keyboardType: TextInputType.number,
+                      enabled: _isInputEnabled(),
+                    ),
+                  ],
+                );
+              },
             ),
             const SizedBox(height: 32),
             ListenableBuilder(

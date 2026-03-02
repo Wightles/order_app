@@ -11,6 +11,9 @@ class OrderService {
     final client = http.Client();
     
     try {
+      // Искусственная задержка 2 секунды
+      await Future.delayed(const Duration(seconds: 2));
+      
       final response = await client
           .post(
             Uri.parse('${ApiConfig.baseUrl}/api/orders'),
